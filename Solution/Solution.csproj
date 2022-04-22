@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <RootNamespace>Codingame_2022_Spring_Challenge</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Lib\Lib.csproj" />
+      <ProjectReference Include="..\SourceMerger\SourceMerger.csproj" />
+    </ItemGroup>
+
+    <Target Name="MergeSource" AfterTargets="Build">
+        <Exec Command="..\SourceMerger\bin\Debug\netcoreapp3.1\SourceMerger.exe" />
+    </Target>
+
+</Project>
