@@ -1,6 +1,6 @@
-﻿namespace Lib {
-	public interface IStateReader<TInitialState, out TState> {
+namespace Lib {
+	public interface IStateReader<TInitialState, TState> {
 		public TInitialState ReadInitialState();
-		public TState ReadTurn(TInitialState initialState);
+		public TState ReadTurn(TInitialState initialState, TState previousState);
 	}
 }

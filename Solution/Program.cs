@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Lib;
 
@@ -16,8 +16,9 @@ namespace Codingame_2022_Spring_Challenge {
 			consoleReader.Flush();
 
 			int turn = 0;
+			State state = null;
 			while (true) {
-				State state = stateReader.ReadTurn(initialState);
+				state = stateReader.ReadTurn(initialState, state);
 
 				Timer timer = new Timer(++turn == 1 ? FirstTurnTime : TurnTime); //TODO start this after the first input read, not the last
 				consoleReader.Flush();

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Lib {
 	public class MultiMoveSolution<TMove> : ISolution, IComparable<MultiMoveSolution<TMove>> {

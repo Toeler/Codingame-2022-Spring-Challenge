@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -18,12 +18,13 @@ namespace SourceMerger {
 			@".*/tests.*"
 		};
 
-		private const string UsingPattern = @"using [A-Za-z0-9. =]+;\r?\n";
+		private const string UsingPattern = @"using [A-Za-z0-9. =_]+;\r?\n";
+		private const string NamespacePattern = @"namespace ([A-Za-z0-9. =_]+) {\r?\n";
 
 		private const string OutputFile = @"..\dist\Program.cs";
 
 		public static void Main(string[] args) {
-			string[] dirs = args.Length > 0 ? args : new[] {@".", @"../Lib"};
+			string[] dirs = args.Length > 0 ? args : new[] { @".", @"../Lib" };
 
 			var sources =
 				dirs.SelectMany(
@@ -32,7 +33,7 @@ namespace SourceMerger {
 						.Where(fn => !IgnoredPatterns.Any(p => Regex.IsMatch(fn, p, RegexOptions.IgnoreCase)))
 						.Select(fn => fn.ToLower())
 						.OrderBy(fn => fn)
-						.Select(fn => new {name = fn.ToLower(), src = File.ReadAllText(fn)})
+						.Select(fn => new { name = fn.ToLower(), src = File.ReadAllText(fn) })
 				).ToList();
 			IList<string> exceptions = sources
 				.Where(file => file.name.EndsWith(".solution.cs"))
@@ -40,6 +41,8 @@ namespace SourceMerger {
 				.ToList();
 
 			HashSet<string> usings = new HashSet<string>();
+			HashSet<string> namespaces = new HashSet<string>(sources.Select(file => Regex.Matches(file.src, NamespacePattern, RegexOptions.Multiline | RegexOptions.IgnoreCase).First().Groups[1].Value));
+
 			StringBuilder sb = new StringBuilder();
 			foreach (var file in sources) {
 				if (exceptions.Contains(file.name)) {
@@ -54,7 +57,7 @@ namespace SourceMerger {
 					.ToList();
 
 				foreach (string usingLine in usingLines) {
-					if (!usingLine.StartsWith("using System") && !usingLine.StartsWith("using Lib")) {
+					if (!usingLine.StartsWith("using System") && !namespaces.Any(ns => usingLine.StartsWith($"using {ns}"))) {
 						ConsoleColor oldColor = Console.ForegroundColor;
 						Console.ForegroundColor = ConsoleColor.Red;
 						Console.WriteLine(usingLine + " in " + file.name);

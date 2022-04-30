@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Lib {
-	public class DebugReader {
+	public class DebugReader : AbstractReader {
 		private int _currentLine;
 		private readonly string[] _textLines;
 
@@ -11,7 +11,7 @@ namespace Lib {
 			_textLines = input?.Split('|');
 		}
 
-		protected string ReadLine() {
+		protected override string ReadLine() {
 			return _textLines[_currentLine++];
 		}
 	}
