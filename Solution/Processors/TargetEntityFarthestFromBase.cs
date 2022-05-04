@@ -7,13 +7,13 @@ namespace Codingame_2022_Spring_Challenge.Processors {
 	public abstract class TargetEntityFarthestFromBase : Leaf {
 		protected abstract Vector GetBase(State state);
 
-		public override bool Execute(Hero entity, State state, IDictionary<Hero, AbstractCommand> chosenCommands, BehaviourCache cache) {
-			if (!cache.TryGetValue(CacheKey.TargetEntities, out IEnumerable<AbstractEntity> entities)) {
+		public override bool Execute(Hero entity, State state, IDictionary<Hero, AbstractCommand> chosenCommands, BehaviourCache globalCache, BehaviourCache entityCache) {
+			if (!entityCache.TryGetValue(CacheKey.TargetEntities, out IEnumerable<AbstractEntity> entities)) {
 				return false;
 			}
 
-			cache[CacheKey.TargetEntity] = entities.OrderByDescending(e => e.Position.DistanceTo(GetBase(state))).FirstOrDefault();
-			return cache[CacheKey.TargetEntity] != null;
+			entityCache[CacheKey.TargetEntity] = entities.OrderByDescending(e => e.Position.DistanceTo(GetBase(state))).FirstOrDefault();
+			return entityCache[CacheKey.TargetEntity] != null;
 		}
 	}
 

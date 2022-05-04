@@ -17,14 +17,14 @@ namespace Codingame_2022_Spring_Challenge {
 			return new InitialState(basePos, heroesPerPlayer);
 		}
 
-		public State ReadTurn(InitialState initialState, State previousState) {
+		public State ReadTurn(int turnNumber, InitialState initialState, State previousState) {
 			(int myHealth, int myMana) = _reader.ReadInts();
 			(int enemyHealth, int enemyMana) = _reader.ReadInts();
 
 			int entityCount = _reader.ReadInt();
 			AbstractEntity[] entities = Enumerable.Range(0, entityCount).Select(_ => ReadEntity(previousState)).ToArray();
 
-			return new State(initialState, myHealth, myMana, enemyHealth, enemyMana, entities);
+			return new State(initialState, turnNumber, myHealth, myMana, enemyHealth, enemyMana, entities);
 		}
 
 		private AbstractEntity ReadEntity(State previousState) {

@@ -15,13 +15,13 @@ namespace Codingame_2022_Spring_Challenge.Processors {
 		protected abstract Vector? GetLocation(Hero entity, State state, BehaviourCache cache);
 
 
-		public override bool Execute(Hero entity, State state, IDictionary<Hero, AbstractCommand> chosenCommands, BehaviourCache cache) {
-			var targetLocation = GetLocation(entity, state, cache);
-			if (targetLocation == null || !cache.TryGetValue(CacheKey.TargetEntities, out IEnumerable<AbstractEntity> entities)) {
+		public override bool Execute(Hero entity, State state, IDictionary<Hero, AbstractCommand> chosenCommands, BehaviourCache globalCache, BehaviourCache entityCache) {
+			var targetLocation = GetLocation(entity, state, entityCache);
+			if (targetLocation == null || !entityCache.TryGetValue(CacheKey.TargetEntities, out IEnumerable<AbstractEntity> entities)) {
 				return true;
 			}
 
-			cache[CacheKey.TargetEntities] = entities.Where(e => e.Position.DistanceTo(targetLocation) <= Range);
+			entityCache[CacheKey.TargetEntities] = entities.Where(e => e.Position.DistanceTo(targetLocation) <= Range);
 			return true;
 		}
 	}

@@ -10,8 +10,8 @@ namespace Codingame_2022_Spring_Challenge.Conditions {
 			MinimumCount = minimumCount;
 		}
 
-		public override bool Execute(Hero entity, State state, IDictionary<Hero, AbstractCommand> chosenCommands, BehaviourCache cache) {
-			if (cache.TryGetValue(CacheKey.TargetEntities, out IEnumerable<AbstractEntity> targets)) {
+		public override bool Execute(Hero entity, State state, IDictionary<Hero, AbstractCommand> chosenCommands, BehaviourCache globalCache, BehaviourCache entityCache) {
+			if (entityCache.TryGetValue(CacheKey.TargetEntities, out IEnumerable<AbstractEntity> targets)) {
 				return targets.Count() >= MinimumCount;
 			}
 

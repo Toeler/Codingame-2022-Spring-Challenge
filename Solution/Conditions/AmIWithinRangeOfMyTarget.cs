@@ -14,8 +14,8 @@ namespace Codingame_2022_Spring_Challenge.Conditions {
 
 		protected abstract Vector GetTargetLocation(T target);
 
-		public override bool Execute(Hero entity, State state, IDictionary<Hero, AbstractCommand> chosenCommands, BehaviourCache cache) {
-			if (!cache.TryGetValue(TargetKey, out T target)) {
+		public override bool Execute(Hero entity, State state, IDictionary<Hero, AbstractCommand> chosenCommands, BehaviourCache globalCache, BehaviourCache entityCache) {
+			if (!entityCache.TryGetValue(TargetKey, out T target)) {
 				return false;
 			}
 

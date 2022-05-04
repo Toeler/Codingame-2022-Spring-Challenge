@@ -5,6 +5,7 @@ namespace Codingame_2022_Spring_Challenge {
 		Attacker,
 		Exterminator,
 		Farmer,
-		Explorer
+		Explorer,
+		Escorter
 	}
 }

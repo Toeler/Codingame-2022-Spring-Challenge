@@ -19,7 +19,7 @@ namespace Codingame_2022_Spring_Challenge {
 		public IEnumerable<SingleMoveSolution<IDictionary<Hero, AbstractCommand>>> GetSolutions(State problem, Timer timer) {
 			CommandDictionary chosenCommands = new CommandDictionary();
 			var behaviourTree = new BehaviourTree();
-			var lastIterationHeroesWithoutMoves = new List<Hero>(problem.MyHeroes);
+			var lastIterationHeroesWithoutMoves = new List<Hero>();
 			while (!timer.IsFinished() && chosenCommands.Keys.Count != problem.MyHeroes.Length) {
 				foreach (var hero in problem.MyHeroes) {
 #if DEBUG
@@ -28,10 +28,11 @@ namespace Codingame_2022_Spring_Challenge {
 					behaviourTree.Execute(hero, problem, chosenCommands);
 				}
 
-				
+
 				var heroesWithoutMoves = problem.MyHeroes.Except(chosenCommands.Keys).ToList();
 				if (heroesWithoutMoves.Count > 0 && heroesWithoutMoves.Count == lastIterationHeroesWithoutMoves.Count) {
 					// We're stuck, both heroes want the other to choose first. Sub-optimally, the first hero can miss out
+					Console.Error.WriteLine($"Heroes with no move picked: {string.Join(", ", heroesWithoutMoves.Select(h => h.Id))}. Hero {heroesWithoutMoves.First().Id} Waiting.");
 					chosenCommands.Add(heroesWithoutMoves.First(), new WaitCommand(HeroRole.None));
 				}
 

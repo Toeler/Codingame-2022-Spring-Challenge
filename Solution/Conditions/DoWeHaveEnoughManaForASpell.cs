@@ -11,7 +11,7 @@ namespace Codingame_2022_Spring_Challenge.Conditions {
 			RequiredMana = requiredMana;
 		}
 
-		public override bool Execute(Hero entity, State state, IDictionary<Hero, AbstractCommand> chosenCommands, BehaviourCache cache) {
+		public override bool Execute(Hero entity, State state, IDictionary<Hero, AbstractCommand> chosenCommands, BehaviourCache globalCache, BehaviourCache entityCache) {
 			int numberOfSpellsThisTurn = chosenCommands.Count(command => command.Value is UseSpellCommand);
 			int availableMana = state.MyMana - numberOfSpellsThisTurn * InitialState.SpellManaCost;
 

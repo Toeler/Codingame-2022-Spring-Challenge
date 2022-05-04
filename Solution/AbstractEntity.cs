@@ -5,6 +5,7 @@ namespace Codingame_2022_Spring_Challenge {
 	public abstract class AbstractEntity {
 		public int Id { get; }
 		public Vector Position { get; }
+		public Vector PositionNextTurn => Position + Vector;
 		public int ShieldLife { get; }
 		public bool IsShielded => ShieldLife > 0;
 		public bool IsControlled { get; }
@@ -18,7 +19,7 @@ namespace Codingame_2022_Spring_Challenge {
 		    IsControlled = isControlled;
 		}
 
-		public double GetCollisionTime(Vector target, double radius) {
+		public virtual double GetCollisionTime(Vector target, double radius) {
 			return Position.GetCollisionTime(Vector, target, radius);
 		}
 

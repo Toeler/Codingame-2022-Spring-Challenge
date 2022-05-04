@@ -13,7 +13,10 @@ namespace Codingame_2022_Spring_Challenge {
 		TargetEntities,
 		TargetEntity,
 		TargetLocations,
-		TargetLocation
+		TargetLocation,
+		TargetEntityNumber,
+		IgnoredEntities,
+		WaitingHeroes
 	}
 
 	public class BehaviourCache : Dictionary<CacheKey, object> {
@@ -24,14 +27,14 @@ namespace Codingame_2022_Spring_Challenge {
 		}
 	}
 
-	public class NodeList : List<AbstractNode<Hero, State, IDictionary<Hero, AbstractCommand>, BehaviourCache>> {}
+	public class NodeList : List<AbstractNode<Hero, State, IDictionary<Hero, AbstractCommand>, BehaviourCache, BehaviourCache>> {}
 
-	public class Inverter : Inverter<Hero, State, IDictionary<Hero, AbstractCommand>, BehaviourCache> {
-		public Inverter(AbstractNode<Hero, State, IDictionary<Hero, AbstractCommand>, BehaviourCache> children) : base(children) {
+	public class Inverter : Inverter<Hero, State, IDictionary<Hero, AbstractCommand>, BehaviourCache, BehaviourCache> {
+		public Inverter(AbstractNode<Hero, State, IDictionary<Hero, AbstractCommand>, BehaviourCache, BehaviourCache> children) : base(children) {
 		}
 	}
 
-	public abstract class Leaf : Leaf<Hero, State, IDictionary<Hero, AbstractCommand>, BehaviourCache> {
+	public abstract class Leaf : Leaf<Hero, State, IDictionary<Hero, AbstractCommand>, BehaviourCache, BehaviourCache> {
 		protected HeroRole GetRoleOrDefault(BehaviourCache cache) {
 			if (!cache.TryGetValue(CacheKey.Role, out HeroRole role)) {
 				role = HeroRole.None;
@@ -40,31 +43,45 @@ namespace Codingame_2022_Spring_Challenge {
 			return role;
 		}
 	}
-	public class Selector : Select<Hero, State, IDictionary<Hero, AbstractCommand>, BehaviourCache> {
+	public class Selector : Select<Hero, State, IDictionary<Hero, AbstractCommand>, BehaviourCache, BehaviourCache> {
 		public Selector(NodeList children) : base(children) {
 		}
 	}
-	public class Sequence : Sequence<Hero, State, IDictionary<Hero, AbstractCommand>, BehaviourCache> {
+	public class Sequence : Sequence<Hero, State, IDictionary<Hero, AbstractCommand>, BehaviourCache, BehaviourCache> {
 		public Sequence(NodeList children) : base(children) {
 		}
 	}
 
-	public class BehaviourTree : BehaviourTree<Hero, State, IDictionary<Hero, AbstractCommand>, BehaviourCache> {
+	public class RepeaterUntilFail : RepeaterUntilFail<Hero, State, IDictionary<Hero, AbstractCommand>, BehaviourCache, BehaviourCache> {
+		public RepeaterUntilFail(int repetitions, AbstractNode<Hero, State, IDictionary<Hero, AbstractCommand>, BehaviourCache, BehaviourCache> children) : base(repetitions, children) {
+		}
+	}
+
+	public class RepeaterUntilSuccess : RepeaterUntilSuccess<Hero, State, IDictionary<Hero, AbstractCommand>, BehaviourCache, BehaviourCache> {
+		public RepeaterUntilSuccess(int repetitions, AbstractNode<Hero, State, IDictionary<Hero, AbstractCommand>, BehaviourCache, BehaviourCache> children) : base(repetitions, children) {
+		}
+	}
+
+	public class BehaviourTree : BehaviourTree<Hero, State, IDictionary<Hero, AbstractCommand>, BehaviourCache, BehaviourCache> {
 		protected override BehaviourCache LocalCache { get; }
+		protected override BehaviourCache GlobalCache { get; }
 
 		public BehaviourTree() : base(new Selector(new NodeList {
 			new HaveIAlreadyChosenCommand(),
 			new GuaranteeAttackBehaviour(),
 			new AttackEnemyBaseBehaviour(),
 			new CreateBugBombBehaviour(),
+			new EscortBugBombBehaviour(),
 			new OffensiveFarmMonstersBehaviour(),
 			new ShieldMyselfBehaviour(),
 			new DefendBaseFromMonstersBehaviour(),
+			new DefendBaseFromEnemyBehaviour(),
 			new DefensiveFarmMonstersBehaviour(),
 			new PatrolBehaviour(),
 			new WaitAction()
 		})) {
 			LocalCache = new BehaviourCache();
+			GlobalCache = new BehaviourCache();
 		}
 	}
 }

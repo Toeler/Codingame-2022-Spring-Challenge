@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 namespace Codingame_2022_Spring_Challenge.Actions {
 	public class RedirectMyTargetTowardsEnemyBase : Leaf {
-		public override bool Execute(Hero entity, State state, IDictionary<Hero, AbstractCommand> chosenCommands, BehaviourCache cache) {
-			if (!cache.TryGetValue(CacheKey.TargetEntity, out AbstractEntity targetEntity)) {
+		public override bool Execute(Hero entity, State state, IDictionary<Hero, AbstractCommand> chosenCommands, BehaviourCache globalCache, BehaviourCache entityCache) {
+			if (!entityCache.TryGetValue(CacheKey.TargetEntity, out AbstractEntity targetEntity)) {
 				return false;
 			}
 
@@ -12,7 +12,7 @@ namespace Codingame_2022_Spring_Challenge.Actions {
 				return false;
 			}
 
-			chosenCommands.Add(entity, new UseControlSpellCommand(target, state.EnemyBase, GetRoleOrDefault(cache)));
+			chosenCommands.Add(entity, new UseControlSpellCommand(target, state.EnemyBase, GetRoleOrDefault(entityCache)));
 			return true;
 		}
 	}

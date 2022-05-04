@@ -9,7 +9,7 @@ namespace Codingame_2022_Spring_Challenge.Behaviours {
 			new GetMonstersThatWillReachEnemyBaseInTurns(InitialState.ShieldTime),
 			new FilterEntitiesWithShield(),
 			new FilterEntitesAlreadyBeingTargeted(),
-			new TargetEntityClosestToEnemyBase(),
+			new TargetNextEntityClosestToEnemyBase(),
 			new AmIWithinRangeOfMyTargetEntity(InitialState.ShieldSpellRange),
 			new ShieldMyTarget()
 		}) {

@@ -5,11 +5,11 @@ using System.Linq;
 
 namespace Codingame_2022_Spring_Challenge.Processors {
 	public class FilterLocationsWithMonsters : Leaf {
-		public override bool Execute(Hero entity, State state, IDictionary<Hero, AbstractCommand> chosenCommands, BehaviourCache cache) {
-			if (cache.TryGetValue(CacheKey.TargetLocations, out IEnumerable<Vector> locations)) {
+		public override bool Execute(Hero entity, State state, IDictionary<Hero, AbstractCommand> chosenCommands, BehaviourCache globalCache, BehaviourCache entityCache) {
+			if (entityCache.TryGetValue(CacheKey.TargetLocations, out IEnumerable<Vector> locations)) {
 				IList<Vector> locationList = locations.ToList();
 
-				cache[CacheKey.TargetLocations] = locationList.Where(location => {
+				entityCache[CacheKey.TargetLocations] = locationList.Where(location => {
 					var monstersWithinRange =
 						GetMonstersWithRange(state.Monsters, location, InitialState.HeroVisionRange);
 					var monstersClosestToLocation = monstersWithinRange.Where(monster =>

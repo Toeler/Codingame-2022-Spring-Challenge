@@ -43,7 +43,7 @@ namespace Codingame_2022_Spring_Challenge.Commands {
 
 		public override string ToString() {
 			string role = string.Empty;
-			// role = $" {Role}";
+			role = $" {Role}";
 			return $"{CommandName} {Target}{role}";
 		}
 	}

@@ -6,6 +6,7 @@ using Lib;
 
 namespace Codingame_2022_Spring_Challenge {
 	public class State : InitialState {
+		public int TurnNumber { get; }
 		public int MyHealth { get; }
 		public int MyMana { get; }
 		public int EnemyHealth { get; }
@@ -34,7 +35,8 @@ namespace Codingame_2022_Spring_Challenge {
 			}
 		}
 
-		public State(InitialState initialState, int myHealth, int myMana, int enemyHealth, int enemyMana, AbstractEntity[] entities): base(initialState) {
+		public State(InitialState initialState, int turnNumber, int myHealth, int myMana, int enemyHealth, int enemyMana, AbstractEntity[] entities): base(initialState) {
+			TurnNumber = turnNumber;
 			MyHealth = myHealth;
 			MyMana = myMana;
 			EnemyHealth = enemyHealth;

@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 namespace Codingame_2022_Spring_Challenge.Actions {
 	public class RedirectMyTargetAwayFromMyBase : Leaf {
-		public override bool Execute(Hero entity, State state, IDictionary<Hero, AbstractCommand> chosenCommands, BehaviourCache cache) {
-			if (!cache.TryGetValue(CacheKey.Role, out HeroRole role)) {
+		public override bool Execute(Hero entity, State state, IDictionary<Hero, AbstractCommand> chosenCommands, BehaviourCache globalCache, BehaviourCache entityCache) {
+			if (!entityCache.TryGetValue(CacheKey.Role, out HeroRole role)) {
 				role = HeroRole.None;
 			}
-			if (cache.TryGetValue(CacheKey.TargetEntity, out AbstractEntity targetEntity)) {
+			if (!entityCache.TryGetValue(CacheKey.TargetEntity, out AbstractEntity targetEntity)) {
 				return false;
 			}
 
@@ -33,8 +33,8 @@ namespace Codingame_2022_Spring_Challenge.Actions {
 						: newVectorAwayFromMyBase.CounterClockwise();
 			}
 
-			Vector redirectToLocation = expectedPosition + redirectVelocity;
-			
+			Vector redirectToLocation = (expectedPosition + redirectVelocity).Truncate();
+
 			chosenCommands.Add(entity, new UseControlSpellCommand(target, redirectToLocation, role));
 			return true;
 		}

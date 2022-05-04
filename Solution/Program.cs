@@ -18,9 +18,10 @@ namespace Codingame_2022_Spring_Challenge {
 			int turn = 0;
 			State state = null;
 			while (true) {
-				state = stateReader.ReadTurn(initialState, state);
+				turn++;
+				state = stateReader.ReadTurn(turn, initialState, state);
 
-				Timer timer = new Timer(++turn == 1 ? FirstTurnTime : TurnTime); //TODO start this after the first input read, not the last
+				Timer timer = new Timer(turn == 1 ? FirstTurnTime : TurnTime); //TODO start this after the first input read, not the last
 				consoleReader.Flush();
 
 				IEnumerable<Command> command = solver.GetSolution(state, timer);

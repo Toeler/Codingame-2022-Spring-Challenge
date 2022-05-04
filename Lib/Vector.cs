@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 
 namespace Lib {
@@ -96,7 +97,7 @@ namespace Lib {
 
 			Vector pos = this;
 			int ticks = 0;
-			while (pos.X > topLeft.X && pos.X < bottomRight.X && pos.Y > topLeft.Y && pos.Y < bottomRight.Y) {
+			while (pos.IsInRectangle(topLeft, bottomRight)) {
 				pos += speed;
 				ticks++;
 			}
@@ -153,6 +154,30 @@ namespace Lib {
 
 		public Vector CounterClockwise() {
 			return new Vector(Y, -1 * X);
+		}
+
+		public IReadOnlyCollection<Vector> GetPointsInRadius(int radius, int clampToNearest = 1) {
+			HashSet<Vector> points = new HashSet<Vector>();
+			for (double x = X - radius; x <= X; x += clampToNearest) {
+				for (double y = Y - radius; y <= Y; y += clampToNearest) {
+					Vector point = new Vector(x, y);
+					if (Distance2To(point) <= radius * radius) {
+						double xSym = X - (x - X);
+						double ySym = Y - (y - Y);
+
+						points.Add(point);
+						points.Add(new Vector(x, ySym));
+						points.Add(new Vector(xSym, y));
+						points.Add(new Vector(xSym, ySym));
+					}
+				}
+			}
+
+			return points;
+		}
+
+		public bool IsInRectangle(Vector topLeft, Vector bottomRight) {
+			return X >= topLeft.X && X <= bottomRight.X && Y >= topLeft.Y && Y <= bottomRight.Y;
 		}
 
 		public void Deconstruct(out double x, out double y) {

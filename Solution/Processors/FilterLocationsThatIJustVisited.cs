@@ -5,8 +5,8 @@ using System.Linq;
 
 namespace Codingame_2022_Spring_Challenge.Processors {
 	public class FilterLocationsThatIJustVisited: Leaf {
-		public override bool Execute(Hero entity, State state, IDictionary<Hero, AbstractCommand> chosenCommands, BehaviourCache cache) {
-			if (cache.TryGetValue(CacheKey.TargetLocations, out IEnumerable<Vector> locations)) {
+		public override bool Execute(Hero entity, State state, IDictionary<Hero, AbstractCommand> chosenCommands, BehaviourCache globalCache, BehaviourCache entityCache) {
+			if (entityCache.TryGetValue(CacheKey.TargetLocations, out IEnumerable<Vector> locations)) {
 				Vector closestLocation = locations.OrderBy(location => location.DistanceTo(entity.Position)).First();
 
 				if (closestLocation == null) {
@@ -16,7 +16,7 @@ namespace Codingame_2022_Spring_Challenge.Processors {
 				bool isHeroFacingLocation = entity.Vector.DotMultiply(closestLocation - entity.Position) >= 0;
 
 				if (!isHeroFacingLocation) {
-					cache[CacheKey.TargetLocations] = locations.Where(location => location != closestLocation);
+					entityCache[CacheKey.TargetLocations] = locations.Where(location => location != closestLocation);
 				}
 			}
 			return true;

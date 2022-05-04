@@ -10,8 +10,8 @@ namespace Codingame_2022_Spring_Challenge.Processors {
 			Range = range;
 		}
 
-		public override bool Execute(Hero entity, State state, IDictionary<Hero, AbstractCommand> chosenCommands, BehaviourCache cache) {
-			cache[CacheKey.TargetEntities] = state.Monsters.Where(monster => monster.Position.DistanceTo(entity.Position) <= Range);
+		public override bool Execute(Hero entity, State state, IDictionary<Hero, AbstractCommand> chosenCommands, BehaviourCache globalCache, BehaviourCache entityCache) {
+			entityCache[CacheKey.TargetEntities] = state.Monsters.Where(monster => monster.Position.DistanceTo(entity.Position) <= Range);
 			return true;
 		}
 	}

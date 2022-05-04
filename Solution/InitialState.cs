@@ -20,6 +20,8 @@ namespace Codingame_2022_Spring_Challenge {
 		public const int HeroMoveSpeed = 800;
 		public const int FarmingRange = 10000;
 		public const int ShieldTime = 12;
+		public const int HeroAttackRadius = 800;
+		public const int HeroDamagePerTurn = 2;
 
 		public Vector MyBase { get; }
 		public Vector EnemyBase { get; }

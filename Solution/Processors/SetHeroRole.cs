@@ -9,8 +9,8 @@ namespace Codingame_2022_Spring_Challenge.Processors {
 			Role = role;
 		}
 
-		public override bool Execute(Hero entity, State state, IDictionary<Hero, AbstractCommand> chosenCommands, BehaviourCache cache) {
-			cache[CacheKey.Role] = Role;
+		public override bool Execute(Hero entity, State state, IDictionary<Hero, AbstractCommand> chosenCommands, BehaviourCache globalCache, BehaviourCache entityCache) {
+			entityCache[CacheKey.Role] = Role;
 			return true;
 		}
 	}
