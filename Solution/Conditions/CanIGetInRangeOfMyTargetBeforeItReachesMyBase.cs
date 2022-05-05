@@ -22,7 +22,7 @@ namespace Codingame_2022_Spring_Challenge.Conditions {
 			double turnsUntilEntersMyBase = Math.Ceiling(monster.GetCollisionTime(state.MyBase, InitialState.BaseRadius));
 			double turnsUntilIReachMyTarget = Math.Ceiling(entity.GetCollisionTime(monster.Position, Range));
 
-			return turnsUntilEntersMyBase >= turnsUntilIReachMyTarget;
+			return turnsUntilEntersMyBase > turnsUntilIReachMyTarget;
 		}
 	}
 }

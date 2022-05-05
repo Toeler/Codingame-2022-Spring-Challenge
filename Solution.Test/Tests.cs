@@ -39,29 +39,6 @@ namespace Codingame_2022_Spring_Challenge.Test {
 			Assert.AreEqual(expectedOutput, string.Join("|", commands));
 		}
 
-		[TestCase("",
-			"3 0|3 0|3|0 1 1131 1131 0 0 -1 -1 -1 -1 -1|1 1 1414 849 0 0 -1 -1 -1 -1 -1|2 1 849 1414 0 0 -1 -1 -1 -1 -1",
-			"MOVE 5000 5000 Explorer|MOVE 7000 1400 Explorer|MOVE 6000 8000 Attacker")]
-		[TestCase(
-			"3 2|3 0|4|0 1 5000 5000 0 0 -1 -1 -1 -1 -1|1 1 7796 1352 0 0 -1 -1 -1 -1 -1|2 1 1400 7000 0 0 -1 -1 -1 -1 -1|6 0 8080 1896 0 0 8 -105 385 0 0",
-			"3 4|3 4|5|0 1 5000 5000 0 0 -1 -1 -1 -1 -1|1 1 8596 1367 0 0 -1 -1 -1 -1 -1|2 1 1400 7000 0 0 -1 -1 -1 -1 -1|6 0 7975 2281 0 0 6 -105 385 0 0|9 0 4015 6703 0 0 10 -100 -387 0 1",
-			"MOVE 4414 5544 Attacker|MOVE 8202 2063 Farmer|MOVE 1400 7000 Explorer")]
-		[TestCase(
-			"",
-			"3 0|3 0|3|0 1 3961 3961 0 0 -1 -1 -1 -1 -1|1 1 5399 1244 0 0 -1 -1 -1 -1 -1|2 1 3315 4568 0 0 -1 -1 -1 -1 -1",
-			"MOVE 5000 5000 Explorer|MOVE 7000 1400 Explorer|MOVE 6000 8000 Attacker")]
-		public void TestTopLeftBaseTurn(string previousTurn, string turnToTest, string expectedOutput) {
-			TestTurn(TopLeftInitialState, previousTurn, turnToTest, expectedOutput);
-		}
-
-		[TestCase(
-			"3 480|3 216|5|3 1 10631 7766 0 0 -1 -1 -1 -1 -1|4 1 15431 5450 0 0 -1 -1 -1 -1 -1|5 1 12642 5419 0 0 -1 -1 -1 -1 -1|168 0 16144 5107 0 0 30 142 373 1 1|173 0 9171 7795 0 0 30 363 -167 0 1",
-			"3 474|3 216|4|3 1 9831 7728 0 0 -1 -1 -1 -1 -1|4 1 15431 5450 0 0 -1 -1 -1 -1 -1|5 1 13426 5575 0 0 -1 -1 -1 -1 -1|173 0 9534 7628 0 0 28 363 -167 0 1",
-				"MOVE 9628 7584 Defender|MOVE 12630 4000 Explorer|MOVE 11630 1000 Attacker")]
-		public void TestBottomRightBaseTurn(string previousTurn, string turnToTest, string expectedOutput) {
-			TestTurn(BottomRightInitialState, previousTurn, turnToTest, expectedOutput);
-		}
-
 		[Test]
 		public void WillNotCastWindOnEasyTarget() {
 			var previousTurn =
@@ -80,16 +57,6 @@ namespace Codingame_2022_Spring_Challenge.Test {
 				"3 64|3 40|10|0 1 6939 6412 6 0 -1 -1 -1 -1 -1|1 1 4657 2058 2 0 -1 -1 -1 -1 -1|2 1 7603 6280 0 0 -1 -1 -1 -1 -1|3 2 5532 2377 0 0 -1 -1 -1 -1 -1|20 0 3799 1784 0 0 1 -362 -170 1 1|23 0 1027 5707 0 0 10 -354 -186 0 0|24 0 6765 5581 0 0 12 -275 290 0 0|33 0 7791 6043 0 0 1 248 -313 0 0|35 0 7737 7223 0 0 13 -154 -368 0 1|37 0 5557 7104 0 0 13 106 -385 0 0";
 			var commands = GetTurnResult(TopLeftInitialState, previousTurn, input);
 			Assert.That(commands.Select(command => command.ToString()), Has.None.Contains("WIND"));
-		}
-
-		[Test]
-		public void WillCastWindOnMonsterThatEnemyCanWindIntoMyBase() {
-			var previousTurn =
-				"3 104|3 48|10|0 1 3133 1044 12 0 -1 -1 -1 -1 -1|1 1 1788 1790 1 0 -1 -1 -1 -1 -1|2 1 5937 6694 0 0 -1 -1 -1 -1 -1|3 2 2654 2498 0 0 -1 -1 -1 -1 -1|63 0 3256 437 0 0 9 -396 -53 1 1|67 0 314 221 0 0 5 -313 -220 1 1|70 0 3153 4255 0 0 18 -298 266 0 0|73 0 98 1874 0 0 18 -20 -399 1 1|77 0 1679 5165 0 0 18 -224 -331 0 1|81 0 6039 6415 0 0 9 136 -376 0 0";
-			string input =
-				"2 108|3 52|9|0 1 3051 409 11 0 -1 -1 -1 -1 -1|1 1 1018 1576 0 0 -1 -1 -1 -1 -1|2 1 6072 6321 0 0 -1 -1 -1 -1 -1|3 2 2901 1738 0 0 -1 -1 -1 -1 -1|63 0 2860 384 0 0 7 -396 -53 1 1|70 0 2855 4521 0 0 18 -298 266 0 0|73 0 78 1475 0 0 18 -21 -399 1 1|77 0 1455 4834 0 0 18 -224 -331 0 1|81 0 6175 6039 0 0 7 136 -376 0 0";
-			var commands = GetTurnResult(TopLeftInitialState, previousTurn, input);
-			Assert.That(commands.ElementAt(0).ToString(), Does.Contain("WIND"));
 		}
 
 		[Test]
@@ -160,26 +127,6 @@ namespace Codingame_2022_Spring_Challenge.Test {
 				"3 136|3 58|7|0 1 3690 6483 0 0 -1 -1 -1 -1 -1|1 1 3644 792 6 0 -1 -1 -1 -1 -1|2 1 3045 2700 2 0 -1 -1 -1 -1 -1|3 2 3683 1616 0 0 -1 -1 -1 -1 -1|28 0 3455 6671 0 0 2 -312 249 0 0|38 0 1514 330 0 0 10 -390 -85 1 1|41 0 4590 3814 0 0 10 -15 -399 0 1";
 			var commands = GetTurnResult(TopLeftInitialState, previousTurn, input);
 			Assert.That(commands.Select(command => command.ToString()), Has.None.Contains("WAIT"));
-		}
-
-		[Test]
-		public void ShouldWindIntoEnemyBase() {
-			var previousTurn =
-				"3 38|3 52|9|0 1 8488 4583 0 0 -1 -1 -1 -1 -1|1 1 527 1711 0 0 -1 -1 -1 -1 -1|2 1 13363 7587 0 0 -1 -1 -1 -1 -1|3 2 1746 5167 0 0 -1 -1 -1 -1 -1|26 0 12458 7042 0 0 12 374 141 0 2|28 0 13519 7136 0 0 10 364 165 1 2|31 0 11732 8605 0 0 13 399 25 0 2|33 0 726 2356 0 0 7 -117 -382 1 1|35 0 11778 8579 0 0 13 398 28 0 2";
-			string input =
-				"3 32|3 52|8|0 1 8266 5351 0 0 -1 -1 -1 -1 -1|1 1 660 2141 0 0 -1 -1 -1 -1 -1|2 1 13363 7587 0 0 -1 -1 -1 -1 -1|3 2 1500 4407 0 0 -1 -1 -1 -1 -1|26 0 14546 7733 0 0 12 369 152 1 2|31 0 12131 8630 0 0 13 399 25 0 2|33 0 609 1974 0 0 5 -117 -382 1 1|35 0 12176 8607 0 0 13 398 28 0 2";
-			var commands = GetTurnResult(TopLeftInitialState, previousTurn, input);
-			Assert.That(commands.Select(command => command.ToString()), Has.Some.Contains("WIND"));
-		}
-
-		[Test]
-		public void ShouldUseWindToProtectMyBase() {
-			var previousTurn =
-				"3 86|3 54|11|0 1 7536 7776 0 0 -1 -1 -1 -1 -1|1 1 2744 793 7 0 -1 -1 -1 -1 -1|2 1 7536 7776 0 0 -1 -1 -1 -1 -1|3 2 2574 2660 0 0 -1 -1 -1 -1 -1|35 0 1085 314 0 1 9 384 110 1 1|38 0 5493 7341 0 0 14 -151 370 0 0|41 0 1705 1823 0 0 14 -273 -292 1 1|42 0 1270 61 0 0 14 -399 -19 1 1|49 0 6886 6577 0 0 15 390 87 0 2|51 0 7380 7398 0 0 7 -205 -343 0 1|53 0 5961 8275 0 0 15 399 24 0 2";
-			string input =
-				"2 70|3 48|11|0 1 7536 7776 0 0 -1 -1 -1 -1 -1|1 1 1976 571 6 0 -1 -1 -1 -1 -1|2 1 7536 7776 0 0 -1 -1 -1 -1 -1|3 2 2574 2660 0 0 -1 -1 -1 -1 -1|35 0 1470 425 0 0 9 -384 -111 1 1|38 0 5342 7711 0 1 14 397 41 0 2|42 0 871 42 0 0 14 -399 -19 1 1|49 0 7276 6664 0 0 15 390 87 0 2|51 0 7175 7055 0 1 3 393 73 0 2|53 0 6360 8299 0 0 15 399 24 0 2|55 0 8812 8602 0 0 16 -1 -399 0 0";
-			var commands = GetTurnResult(TopLeftInitialState, previousTurn, input);
-			Assert.That(commands.Select(command => command.ToString()), Has.Some.Contains("WIND"));
 		}
 	}
 }

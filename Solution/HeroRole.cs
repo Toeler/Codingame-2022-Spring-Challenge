@@ -3,6 +3,7 @@ namespace Codingame_2022_Spring_Challenge {
 		None,
 		Defender,
 		Attacker,
+		Midfielder,
 		Exterminator,
 		Farmer,
 		Explorer,

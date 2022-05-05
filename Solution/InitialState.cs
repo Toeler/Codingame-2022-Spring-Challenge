@@ -2,8 +2,8 @@ using Lib;
 
 namespace Codingame_2022_Spring_Challenge {
 	public class InitialState {
-		protected const int MapWidth = 17630;
-		protected const int MapHeight = 9000;
+		public const int MapWidth = 17630;
+		public const int MapHeight = 9000;
 		public static Vector TopLeft = new Vector(0, 0);
 		public static Vector BottomRight = new Vector(MapWidth, MapHeight);
 		public const int FieldRadius = 5000;

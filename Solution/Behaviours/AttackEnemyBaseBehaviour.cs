@@ -8,9 +8,10 @@ namespace Codingame_2022_Spring_Challenge.Behaviours {
 			new Inverter(new DoWeHaveEnoughHeroesInRole(HeroRole.Attacker, 2)),
 			new DoWeHaveEnoughManaForASpell(reserveMana: 0),
 			new GetMonstersWithinRangeOfEnemyBase(InitialState.FieldRadius + InitialState.WindSpellRange),
-			new FilterEntitiesWithinRangeOfMe(InitialState.WindSpellRange),
 			new Selector(new NodeList {
 				new Sequence(new NodeList {
+					new AmIWithinRangeOfEnemyBase(InitialState.BaseRadius + InitialState.WindSpellRange*2 + InitialState.HeroMoveSpeed + InitialState.MonsterMoveSpeed*2),
+					new FilterEntitiesWithinRangeOfMe(InitialState.WindSpellRange + InitialState.HeroMoveSpeed),
 					new DoIHaveEnoughEntitiesInRange(1),
 					new TargetFirstEntityClosestToEnemyBase(),
 					new SetHeroRole(HeroRole.Attacker),
@@ -18,6 +19,10 @@ namespace Codingame_2022_Spring_Challenge.Behaviours {
 						new Sequence(new NodeList {
 							new Inverter(new AmIClosestToMyTargetEntity()),
 							new WaitForOtherHeroesToProcess()
+						}),
+						new Sequence(new NodeList {
+							new Inverter(new AmIWithinRangeOfMyTargetEntity(InitialState.WindSpellRange)),
+							new InterceptMyTarget()
 						}),
 						new PushMyTargetTowardsEnemyBase()
 					})

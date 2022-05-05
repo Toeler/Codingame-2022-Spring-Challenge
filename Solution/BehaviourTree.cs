@@ -68,16 +68,13 @@ namespace Codingame_2022_Spring_Challenge {
 
 		public BehaviourTree() : base(new Selector(new NodeList {
 			new HaveIAlreadyChosenCommand(),
-			new GuaranteeAttackBehaviour(),
+			new DefendBaseFromMonstersBehaviour(),
+			new DefensiveFarmMonstersBehaviour(),
 			new AttackEnemyBaseBehaviour(),
 			new CreateBugBombBehaviour(),
 			new EscortBugBombBehaviour(),
 			new OffensiveFarmMonstersBehaviour(),
-			new ShieldMyselfBehaviour(),
-			new DefendBaseFromMonstersBehaviour(),
-			new DefendBaseFromEnemyBehaviour(),
-			new DefensiveFarmMonstersBehaviour(),
-			new PatrolBehaviour(),
+			new MidfielderFarmMonstersBehaviour(),
 			new WaitAction()
 		})) {
 			LocalCache = new BehaviourCache();
